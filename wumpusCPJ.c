@@ -4,9 +4,9 @@ FILE:		  	wumpusCPJ.c
 FUNCTION:       main
 
 DESCRIPTION: 	A slightly personalized version of the old classic
-				keyboard single player game, "Hunt The Wumpus"
-			
-*****************************************************/
+keyboard single player game, "Hunt The Wumpus"
+
+ *****************************************************/
 //--------------------
 //Includes
 //--------------------
@@ -15,108 +15,108 @@ DESCRIPTION: 	A slightly personalized version of the old classic
 
 int main(void) {
 
-		char                mORs, 
+        char                mORs, 
                             yesNo;
 
-		struct wmpCaveST    wmpCave[DUODEC + 1];
-		struct wmpHntrST    wmpHntr;
+        struct wmpCaveST    wmpCave[DUODEC + 1];
+        struct wmpHntrST    wmpHntr;
 
 
         system("clear");
 
-       	progSalutatn('S', "Hunt The Wumpus (CPJ)");
+        progSalutatn('S', "Hunt The Wumpus (CPJ)");
 
-		srand((unsigned) time(NULL));
+        srand((unsigned) time(NULL));
 #if DEBUG_MODE
-	printf("---------- DEBUG_MODE: ON ---------------\n\n");
+        printf("---------- DEBUG_MODE: ON ---------------\n\n");
 #endif
 
-       	printf("Welcome to my lair!\n");
-		printf("Would you like to play a game (y or n)? ");
-		scanf(" %c", &yesNo);
+        printf("Welcome to my lair!\n");
+        printf("Would you like to play a game (y or n)? ");
+        scanf(" %c", &yesNo);
         if (yesNo != 'y') {
-			printf("Coward! Begone then.\n");
-			goto leave;
-		}//if
+                printf("Coward! Begone then.\n");
+                goto leave;
+        }//if
 
-       	while (true) { //user want to play
+        while (true) { //user want to play
 
-       		printf("Would you like a game description (y or n)> ");
-			scanf(" %c", &yesNo);
-       		if (yesNo == 'y') {
-				wumpusDescription();
-		}//if user wants instructions
-			
+                printf("Would you like a game description (y or n)> ");
+                scanf(" %c", &yesNo);
+                if (yesNo == 'y') {
+                        wumpusDescription();
+                }//if user wants instructions
 
-       		initWumpusGame(wmpCave, &wmpHntr);
 
-        	if (wumpusGameCheck(wmpCave, &wmpHntr) != true) {
-				printf("initWmpusGame has not constructed a\n");
-				printf("world that meets our specifications. Aborting.");
-				goto leave;
-			}//if
-       		printf("\nStart new game.\n");
-			printf("-----------------------------------------------\n");
+                initWumpusGame(wmpCave, &wmpHntr);
 
-       		while (true) { //game is in progress
+                if (wumpusGameCheck(wmpCave, &wmpHntr) != true) {
+                        printf("initWmpusGame has not constructed a\n");
+                        printf("world that meets our specifications. Aborting.");
+                        goto leave;
+                }//if
+                printf("\nStart new game.\n");
+                printf("-----------------------------------------------\n");
 
-       		    printf("You are in cave %d\n", wmpHntr.hntrCaveSV);
+                while (true) { //game is in progress
 
-                printf("There are tunnels to caves %d %d %d\n",
-	            wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[0],
-	            wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[1],
-	            wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[2]);
+                        printf("You are in cave %d\n", wmpHntr.hntrCaveSV);
 
-				if (pitNearby(wmpCave, &wmpHntr)) {
-					printf("It's drafty here!\n");
-				}//if
+                        printf("There are tunnels to caves %d %d %d\n",
+                                        wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[0],
+                                        wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[1],
+                                        wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[2]);
 
-       			printf("move (m) or shoot (s)> ");
-				scanf(" %c", &mORs);
+                        if (pitNearby(wmpCave, &wmpHntr)) {
+                                printf("It's drafty here!\n");
+                        }//if
 
-       			if (mORs == 'm') {
-       				if (processMove(wmpCave, &wmpHntr)) {
-						continue;
-					}//if hunter did not die
+                        printf("move (m) or shoot (s)> ");
+                        scanf(" %c", &mORs);
 
-                     else {
-	                    break;
-                    }//else hunter killed
-				}//if move
+                        if (mORs == 'm') {
+                                if (processMove(wmpCave, &wmpHntr)) {
+                                        continue;
+                                }//if hunter did not die
 
-        		//------------ Debug: printWorld() on 'p' press --------
-				#if DEBUG_MODE
-				else if (mORs == 'p'){ printWorld(wmpCave); continue; }	
-				#endif
-				//------------------------------------------------------
+                                else {
+                                        break;
+                                }//else hunter killed
+                        }//if move
 
-       			else {
-       				if (processShoot(wmpCave, &wmpHntr)) {
-						continue;
-					}//if hunter or wumpus did not die
-                    else {
-	                    break;
-                    }//else either hunter or wumpus died
-				}//else shoot
+                        //------------ Debug: printWorld() on 'p' press --------
+#if DEBUG_MODE
+                        else if (mORs == 'p'){ printWorld(wmpCave); continue; }	
+#endif
+                        //------------------------------------------------------
 
-			}//while game in progress
+                        else {
+                                if (processShoot(wmpCave, &wmpHntr)) {
+                                        continue;
+                                }//if hunter or wumpus did not die
+                                else {
+                                        break;
+                                }//else either hunter or wumpus died
+                        }//else shoot
 
-            printf("\n");
-			printf("Would you like to play again? (y or n)> ");
-            scanf(" %c", &yesNo);
-       		if (yesNo == 'y') {
-				continue;
-			}//if user want to play again
-            else {
-	            break;
-            }//else user does not want to play again
-		}//while user wants to play
+                }//while game in progress
+
+                printf("\n");
+                printf("Would you like to play again? (y or n)> ");
+                scanf(" %c", &yesNo);
+                if (yesNo == 'y') {
+                        continue;
+                }//if user want to play again
+                else {
+                        break;
+                }//else user does not want to play again
+        }//while user wants to play
 leave:			
-       	printf("\n");
-		progSalutatn('E', "\"Hunt The Wumpus\" (CPJ)");
-       	double anyNmbr;
-		printf("Enter any number to exit> ");
-		scanf("%lf", &anyNmbr);
+        printf("\n");
+        progSalutatn('E', "\"Hunt The Wumpus\" (CPJ)");
+        double anyNmbr;
+        printf("Enter any number to exit> ");
+        scanf("%lf", &anyNmbr);
 
         system("clear");
 
