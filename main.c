@@ -24,7 +24,7 @@ int main(void) {
 
         system("clear");
 
-        progSalutatn('S', "Hunt The Wumpus (CPJ)");
+        progSalutatn('S', "Hunt The Wumpus");
 
         srand((unsigned) time(NULL));
 #if DEBUG_MODE
@@ -50,18 +50,11 @@ int main(void) {
 
                 initWumpusGame(wmpCave, &wmpHntr);
 
-                if (wumpusGameCheck(wmpCave, &wmpHntr) != true) {
-                        printf("initWmpusGame has not constructed a\n");
-                        printf("world that meets our specifications. Aborting.");
-                        goto leave;
-                }//if
                 printf("\nStart new game.\n");
                 printf("-----------------------------------------------\n");
 
                 while (true) { //game is in progress
-
                         printf("You are in cave %d\n", wmpHntr.hntrCaveSV);
-
                         printf("There are tunnels to caves %d %d %d\n",
                                         wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[0],
                                         wmpCave[wmpHntr.hntrCaveSV].wmpTunnlsSV[1],
@@ -113,7 +106,7 @@ int main(void) {
         }//while user wants to play
 leave:			
         printf("\n");
-        progSalutatn('E', "\"Hunt The Wumpus\" (CPJ)");
+        progSalutatn('E', "Hunt The Wumpus");
         double anyNmbr;
         printf("Enter any number to exit> ");
         scanf("%lf", &anyNmbr);
